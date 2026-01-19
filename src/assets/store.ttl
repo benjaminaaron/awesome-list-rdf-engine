@@ -21,3 +21,8 @@ dev:fachanwendung3 a dev:Fachanwendung;
   schema:description "Dies ist Fachanwendung 3";
   schema:name "Fachanwendung 3";
   schema:url <https://fachanwendung3.de>.
+
+dev:fachanwendung4 a dev:Fachanwendung;
+  schema:description "Dies ist Fachanwendung 4, via Pull Request im Readme hinzugefügt";
+  schema:name "Fachanwendung 4";
+  schema:url <https://fachanwendung4.de>.
