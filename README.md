@@ -7,3 +7,4 @@ Prototype of an awesome list powered by a knowledge graph
 - [Fachanwendung 2](https://fachanwendung2.de) - Dies ist Fachanwendung 2
 - [Fachanwendung 3](https://fachanwendung3.de) - Dies ist Fachanwendung 3
 - [Fachanwendung 4](https://fachanwendung4.de) - Dies ist Fachanwendung 4, via Pull Request im Readme hinzugefügt
+- [Fachanwendung 5](https://fachanwendung5.de) - Dies ist Fachanwendung 5, via Pull Request im Store hinzugefügt
