@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "build": "webpack"
+    "build": "webpack",
+    "sync": "node readme-store-sync.js"
   },
   "dependencies": {
     "@foerderfunke/sem-ops-utils": "^0.3.8"

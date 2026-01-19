@@ -1,0 +1,23 @@
+@prefix dev: <https://benjaminaaron.github.io/awesome-list-rdf-engine/>.
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>.
+@prefix schema: <http://schema.org/>.
+
+dev:fachanwendung1 a dev:Fachanwendung;
+  schema:description "Dies ist Fachanwendung 1";
+  schema:name "Fachanwendung 1";
+  schema:url <https://fachanwendung1.de>;
+  dev:hasInterface
+    "API",
+    "SPARQL Endpoint";
+  dev:isOpenSourceCompatible true.
+
+dev:fachanwendung2 a dev:Fachanwendung;
+  schema:description "Dies ist Fachanwendung 2";
+  schema:name "Fachanwendung 2";
+  schema:url <https://fachanwendung2.de>;
+  dev:isOpenSourceCompatible false.
+
+dev:fachanwendung3 a dev:Fachanwendung;
+  schema:description "Dies ist Fachanwendung 3";
+  schema:name "Fachanwendung 3";
+  schema:url <https://fachanwendung3.de>.

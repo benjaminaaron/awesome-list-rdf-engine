@@ -1,4 +1,4 @@
-name: Prepare gh-pages branch
+name: Sync and build gh-pages branch
 
 on:
   push:
@@ -13,12 +13,16 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          persist-credentials: true
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20.11.1"
       - name: Install dependencies
         run: npm install
+      - name: Synchronize Readme and Store
+        run: npm run sync
       - name: Build assets
         run: npm run build
       - name: Deploy to gh-pages
@@ -28,3 +32,16 @@ jobs:
           publish_dir: ./src
           force_orphan: true
           allow_empty_commit: true
+      - name: Commit and push if build output changed
+        run: |
+          set -e
+          git add README.md src/assets/store.ttl
+          if git diff --staged --quiet; then
+            echo "No sync changes detected. Skipping commit."
+            exit 0
+          fi
+          echo "Sync changes detected. Committing..."
+          git -c user.name="github-actions[bot]" \
+              -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+              commit -m "Update sync changes [skip ci]"
+          git push
