@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Awesome List RDF Engine</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Awesome list of Fachanwendungen</h2>
+<table id="table"></table>
+<br/><hr><br/>
+Download dataset as:
+    <a href="./assets/store.ttl">Turtle</a>,
+    <a id="download-jsonld" href="#">JSON-LD</a>,
+    <a id="download-csv" href="#">CSV</a>,
+    <span style="color: gray">
+        <span>Markdown</span>,
+        <span>PDF</span>,
+        <span>JSON</span>,
+        <span>YAML</span>,
+        <span>RSS/Atom</span>,
+        <span>LDES</span>,
+        <span>...</span>
+    </span>
+<br/><br/>
+<small style="color: gray">
+    <strong>TODO</strong>: embed SPARQL editor here, like <a style="color: gray" target="_blank" href="https://www.govdata.de/sparql-assistent">govdata.de/sparql-assistent</a>
+</small>
+
+<script type="module">
+    import { storeFromTurtles, sparqlSelect, storeToJsonLdObj } from "./assets/bundle.js"
+
+    const res = await fetch("./assets/store.ttl")
+    const turtle = await res.text()
+    const store = storeFromTurtles([turtle])
+
+    const query = `
+        PREFIX dev: <https://benjaminaaron.github.io/awesome-list-rdf-engine/>
+        PREFIX schema: <http://schema.org/>
+        SELECT * WHERE {
+            ?id a dev:Fachanwendung ;
+            schema:name ?name ;
+            schema:description ?description ;
+            schema:url ?url .
+        }`
+    const rows = await sparqlSelect(query, [store])
+
+    for (let row of rows) {
+        const table = document.getElementById("table")
+        const tr = document.createElement("tr")
+        table.appendChild(tr)
+        let td = document.createElement("td")
+        tr.appendChild(td)
+        td.innerHTML = `<a href="${row.url}">${row.name}</a>`
+        td = document.createElement("td")
+        tr.appendChild(td)
+        td.innerHTML = ` - ${row.description}`
+    }
+
+    function download(filename, content, contentType) {
+        const blob = new Blob([content], { type: contentType })
+        const url = URL.createObjectURL(blob)
+        const a = document.createElement("a")
+        a.href = url
+        a.download = filename
+        document.body.appendChild(a)
+        a.click()
+        a.remove()
+        URL.revokeObjectURL(url)
+    }
+
+    document.getElementById("download-jsonld").addEventListener("click", async (e) => {
+        e.preventDefault()
+        let jsonObj = await storeToJsonLdObj(store)
+        let json = JSON.stringify(jsonObj, null, 2)
+        download("awesome-list.jsonld", json, "application/ld+json;charset=utf-8")
+    })
+
+    document.getElementById("download-csv").addEventListener("click", async (e) => {
+        e.preventDefault()
+        let lines = ["name;description;url"]
+        for (let row of rows) lines.push(`${row.name};${row.description};${row.url}`)
+        download("awesome-list.csv", lines.join("\n"), "text/csv;charset=utf-8")
+    })
+</script>
+</body>
+</html>
