@@ -1,7 +1,10 @@
-import { newStore, sparqlInsertDelete, storeToTurtle } from "@foerderfunke/sem-ops-utils"
+import { newStore, sparqlInsertDelete, sparqlSelect, storeToTurtle, storeFromTurtles, storeToJsonLdObj } from "@foerderfunke/sem-ops-utils"
 
 export {
     newStore,
     sparqlInsertDelete,
-    storeToTurtle
+    sparqlSelect,
+    storeToTurtle,
+    storeFromTurtles,
+    storeToJsonLdObj
 }
